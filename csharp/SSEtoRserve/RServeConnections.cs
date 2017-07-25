@@ -30,7 +30,9 @@
         public string RTermPath { get; private set; }
         public bool UseIpAddress { get; private set; }
         public string Scheme { get; private set; }
-        
+        public string User { get; private set; }
+        public string Password { get; private set; }
+
         public bool RTermPathExits
         {
             get
@@ -41,7 +43,7 @@
         #endregion
 
         #region Constructor
-        public RserveParameter(Uri uri, int rservePort, string initScript = null, string rProcessCommandLineArgs = null)
+        public RserveParameter(Uri uri, int rservePort, string initScript = null, string rProcessCommandLineArgs = null, string rserveUser = null, string rservePassword = null)
         {
             ConnUri = uri;
             Port = rservePort;
@@ -299,14 +301,16 @@
                     if (Connection == null)
                     {
                         RConnection con = null;
+                        NetworkCredential creds = new NetworkCredential(Parameter.User, Parameter.Password);
+
                         if (Parameter.UseIpAddress)
                         {
-                            con = RConnection.Connect(Parameter.IpAddress, Parameter.Port);
+                            con = RConnection.Connect(Parameter.IpAddress, Parameter.Port, creds);
                             logger.Info($"Connected to RServe {Parameter.IpAddress}:{Parameter.Port}");
                         }
                         else
                         {
-                            con = RConnection.Connect(Parameter.Hostname, Parameter.Port);
+                            con = RConnection.Connect(Parameter.Hostname, Parameter.Port, creds);
                             logger.Info($"Connected to RServe {Parameter.Hostname}:{Parameter.Port}");
                         }
                         Thread.Sleep(150);

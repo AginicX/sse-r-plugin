@@ -25,6 +25,8 @@ namespace SSEtoRserve
                 var rProcessPath = Convert.ToString(Properties.Settings.Default.rProcessPathToStart ?? "");
                 var rProcessCommandLineArgs = Convert.ToString(Properties.Settings.Default.rProcessCommandLineArgs ?? "");
                 var rserveInitScript = Convert.ToString(Properties.Settings.Default.rserveInitScript ?? "");
+                var rserveUser = Convert.ToString(Properties.Settings.Default.rserveUser ?? "");
+                var rservePassword = Convert.ToString(Properties.Settings.Default.rservePassword ?? "");
 
                 var sslCredentials = ServerCredentials.Insecure;
                 var certificateFolderFullPath = Convert.ToString(Properties.Settings.Default.certificateFolderFullPath ?? "");
@@ -58,7 +60,7 @@ namespace SSEtoRserve
                 var uri = new Uri($"rserve://{rserveHost}:{rservePort}");
                 if (!String.IsNullOrEmpty(rProcessPath))
                     uri = new Uri(rProcessPath);
-                var parameter = new RserveParameter(uri, rservePort, rserveInitScript, rProcessCommandLineArgs);
+                var parameter = new RserveParameter(uri, rservePort, rserveInitScript, rProcessCommandLineArgs, rserveUser, rservePassword);
 
                 using (var rServeEvaluator = new RServeEvaluator(parameter))
                 {
