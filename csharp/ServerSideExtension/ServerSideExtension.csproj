@@ -77,7 +77,8 @@
     <Error Condition="!Exists('..\packages\Grpc.Core.1.2.2\build\net45\Grpc.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grpc.Core.1.2.2\build\net45\Grpc.Core.targets'))" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>$(ProjectDir)generate_SSE_Stubs_from_proto.bat $(ProjectDir)</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">$(ProjectDir)generate_SSE_Stubs_from_proto.bat $(ProjectDir)</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Unix' ">$(ProjectDir)generate_SSE_Stubs_from_proto.sh "$(ProjectDir)"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
